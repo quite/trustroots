@@ -373,7 +373,7 @@
         }).
         state('profile.references.list', {
           url: '',
-          templateUrl: '/modules/users/views/profile/profile-view-references-list.client.view.html',
+          template: '<references-read user="profileCtrl.profile"></references-read>',
           requiresAuth: true,
           noScrollingTop: true,
           data: {
