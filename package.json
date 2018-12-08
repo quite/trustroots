@@ -38,6 +38,7 @@
     "migrate-down": "migrate down",
     "migrate": "migrate up",
     "postshrinkwrap": "node -e \"fs.utimesSync('./node_modules', new Date(), new Date());\"",
+    "prettify": "node ./bin/prettify-files.js",
     "preseed": "npm run check-environment",
     "prestart": "npm run check-environment",
     "pretest": "npm run check-environment",
@@ -182,12 +183,15 @@
     "babel-loader": "~8.0.4",
     "babel-plugin-angularjs-annotate": "~0.9.0",
     "concurrently": "~4.1.0",
+    "eslint": "~5.9.0",
+    "eslint-config-prettier": "~3.3.0",
     "eslint-plugin-react": "~7.11.1",
     "exports-loader": "~0.7.0",
     "expose-loader": "~0.7.5",
     "faker": "~4.1.0",
     "gulp-mocha": "~3.0.1",
     "gulp-nodemon": "~2.4.2",
+    "husky": "~1.2.0",
     "imports-loader": "~0.8.0",
     "jasmine-core": "~3.3.0",
     "jquery": "~3.3.1",
@@ -203,11 +207,13 @@
     "ngreact": "~0.5.1",
     "nodemailer-stub-transport": "~1.1.0",
     "nodemon": "~1.18.7",
+    "prettier": "1.15.3",
     "promise": "~8.0.2",
     "prop-types": "~15.6.2",
     "proxyquire": "~2.1.0",
     "react": "~16.6.0",
     "react-dom": "~16.6.0",
+    "replace-in-file": "~3.4.2",
     "semver": "~5.6.0",
     "should": "~13.2.3",
     "sinon": "~7.1.1",
@@ -220,5 +226,10 @@
   "bugs": {
     "url": "https://github.com/Trustroots/trustroots/issues"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run -s install-dependencies && node bin/pre-commit-hook.js"
+    }
+  }
 }
