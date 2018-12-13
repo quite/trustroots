@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 // TODO we can't use the config/config for some reason
-import * as config from '../../../../config/env/default';
+import * as config from '@/config/env/default';
+import '@/config/lib/i18n';
+import { withNamespaces } from 'react-i18next';
 
 /**
  * @TODO make these elements nicer
@@ -15,13 +17,13 @@ UserLink.propTypes = {
   user: PropTypes.object.isRequired
 };
 
-export function Self() {
-  return (<div className="alert alert-warning">Sorry, you can&apos;t give a reference to yourself.</div>);
-}
+export const Self = withNamespaces('reference')(function ({ t }) {
+  return (<div className="alert alert-warning">{t('Sorry, you can\'t give a reference to yourself.')}</div>);
+});
 
-export function Loading() {
-  return (<div className="alert alert-warning">Loading</div>);
-}
+export const Loading = withNamespaces('reference')(function ({ t }) {
+  return (<div className="alert alert-warning">{t('Loading')}</div>);
+});
 
 export function Duplicate({ userTo }) {
   return (<div className="alert alert-warning">You&apos;ve already given a reference to <UserLink user={userTo} />.</div>);

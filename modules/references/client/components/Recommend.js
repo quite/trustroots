@@ -1,15 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Report from './Report';
+import '@/config/lib/i18n';
+import { withNamespaces } from 'react-i18next';
 
-export default function Recommend(props) {
+function Recommend({ t, reference, report, reportMessage, onChangeRecommend, onChangeReport, onChangeReportMessage }) {
 
-  const { hostedMe, hostedThem } = props.reference.interactions;
+  const { hostedMe, hostedThem } = reference.interactions;
   const maxInteraction = (hostedMe) ? 'hostedMe' : (hostedThem) ? 'hostedThem' : 'met';
   const recommendQuestions = {
-    hostedMe: 'Would you recommend others to stay with them?',
-    hostedThem: 'Would you recommend others to host them?',
-    met: 'Would you recommend others to meet them?'
+    hostedMe: t('Would you recommend others to stay with them?'),
+    hostedThem: t('Would you recommend others to host them?'),
+    met: t('Would you recommend others to meet them?')
   };
   const question = recommendQuestions[maxInteraction];
 
@@ -24,48 +26,48 @@ export default function Recommend(props) {
           aria-labelledby="recommendationQuestion">
           <label className="btn btn-lg btn-reference-recommend btn-reference-recommend-yes"
             role="radio"
-            aria-checked={ props.reference.recommend === 'yes' }>
+            aria-checked={ reference.recommend === 'yes' }>
             <input
               type="radio"
               name="recommend"
-              checked={props.reference.recommend === 'yes'}
-              onChange={() => props.onChangeRecommend('yes')}
+              checked={reference.recommend === 'yes'}
+              onChange={() => onChangeRecommend('yes')}
             />
-            <span>Yes</span>
+            <span>{t('Yes')}</span>
           </label>
           <label className="btn btn-lg btn-reference-recommend btn-reference-recommend-no"
             role="radio"
-            aria-checked={ props.reference.recommend === 'no' }>
+            aria-checked={ reference.recommend === 'no' }>
             <input
               type="radio"
               name="recommend"
-              checked={props.reference.recommend === 'no'}
-              onChange={() => props.onChangeRecommend('no')}
+              checked={reference.recommend === 'no'}
+              onChange={() => onChangeRecommend('no')}
             />
-            <span>No</span>
+            <span>{t('No')}</span>
           </label>
           <label className="btn btn-lg btn-reference-recommend btn-reference-recommend-unknown"
             role="radio"
-            aria-checked={props.reference.recommend === 'unknown' }>
+            aria-checked={reference.recommend === 'unknown' }>
             <input
               type="radio"
               name="recommend"
-              checked={props.reference.recommend === 'unknown'}
-              onChange={() => props.onChangeRecommend('unknown')}
+              checked={reference.recommend === 'unknown'}
+              onChange={() => onChangeRecommend('unknown')}
             />
-            <span>I don&apos;t know</span>
+            <span>{t('I don\'t know')}</span>
           </label>
         </div>
-        {(!props.reference.recommend) ?
+        {(!reference.recommend) ?
           <div className="alert alert-warning reference-new-tabs-alert" role="alert" ng-if="!referenceNew.reference.recommend && referenceNew.recommendationWarning">
             Please choose if you can recommend them.
           </div> : null}
-        {(props.reference.recommend === 'no') ?
+        {(reference.recommend === 'no') ?
           <Report
-            onChangeReport={props.onChangeReport}
-            onChangeReportMessage={props.onChangeReportMessage}
-            report={props.report}
-            reportMessage={props.reportMessage}
+            onChangeReport={onChangeReport}
+            onChangeReportMessage={onChangeReportMessage}
+            report={report}
+            reportMessage={reportMessage}
           /> : null}
       </div>
     </div>
@@ -78,5 +80,8 @@ Recommend.propTypes = {
   onChangeReport: PropTypes.func.isRequired,
   onChangeReportMessage: PropTypes.func.isRequired,
   report: PropTypes.bool.isRequired,
-  reportMessage: PropTypes.string.isRequired
+  reportMessage: PropTypes.string.isRequired,
+  t: PropTypes.func.isRequired
 };
+
+export default withNamespaces('reference')(Recommend);
