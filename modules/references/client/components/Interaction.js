@@ -1,14 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import '@/config/lib/i18n';
+import { withNamespaces } from 'react-i18next';
 
-export default function Interaction(props) {
+const Interaction = withNamespaces('reference')(function ({ t, reference: { interactions }, onChange }) {
 
-  const { reference: { interactions } } = props;
   const isInteraction = [...Object.keys(interactions)].reduce((accumulator, current) => accumulator || interactions[current], false);
   return (
     <div className="panel panel-default">
       <div className="panel-heading">
-        <h4 id="howDoYouKnowThemQuestion">How do you know them?</h4>
+        <h4 id="howDoYouKnowThemQuestion">{t('How do you know them?')}</h4>
       </div>
       <div className="panel-body">
         <div role="group" aria-labelledby="howDoYouKnowThemQuestion">
@@ -16,44 +17,46 @@ export default function Interaction(props) {
             <label>
               <input
                 type="checkbox"
-                checked={props.reference.interactions.met}
-                onChange={() => props.onChange('met')}
+                checked={interactions.met}
+                onChange={() => onChange('met')}
               />
-              Met in person
+              {t('Met in person')}
             </label>
           </div>
           <div className="checkbox">
             <label>
               <input
                 type="checkbox"
-                checked={props.reference.interactions.hostedThem}
-                onChange={() => props.onChange('hostedThem')}
+                checked={interactions.hostedThem}
+                onChange={() => onChange('hostedThem')}
               />
-              I hosted them
+              {t('I hosted them')}
             </label>
           </div>
           <div className="checkbox">
             <label>
               <input
                 type="checkbox"
-                checked={props.reference.interactions.hostedMe}
-                onChange={() => props.onChange('hostedMe')}
+                checked={interactions.hostedMe}
+                onChange={() => onChange('hostedMe')}
               />
-              They hosted me
+              {t('They hosted me')}
             </label>
           </div>
         </div>
         {(!isInteraction) ? (
           <div className="alert alert-warning reference-new-tabs-alert" role="alert">
-            Please tell us about your interaction.
+            {t('Please tell us about your interaction.')}
           </div>
         ) : null}
       </div>
     </div>
   );
-}
+});
 
 Interaction.propTypes = {
   onChange: PropTypes.func.isRequired,
   reference: PropTypes.object.isRequired
 };
+
+export default Interaction;

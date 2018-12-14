@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 // TODO we can't use the config/config for some reason
 import * as config from '@/config/env/default';
 import '@/config/lib/i18n';
-import { withNamespaces } from 'react-i18next';
+import { withNamespaces, Trans } from 'react-i18next';
+
+const daysToReply = config.limits.timeToReplyReference.days;
 
 /**
  * @TODO make these elements nicer
@@ -25,36 +27,38 @@ export const Loading = withNamespaces('reference')(function ({ t }) {
   return (<div className="alert alert-warning">{t('Loading')}</div>);
 });
 
-export function Duplicate({ userTo }) {
-  return (<div className="alert alert-warning">You&apos;ve already given a reference to <UserLink user={userTo} />.</div>);
-}
+export const Duplicate = withNamespaces('reference')(function ({ userTo }) {
+  return (<div className="alert alert-warning"><Trans>You&apos;ve already given a reference to <UserLink user={userTo} />.</Trans></div>);
+});
 
 Duplicate.propTypes = {
   userTo: PropTypes.object.isRequired
 };
 
-export function Submitted({ isReported, isPublic, userFrom, userTo }) {
+export const Submitted = withNamespaces('reference')(function ({ t, isReported, isPublic, userFrom, userTo }) {
   const name = userTo.displayName || userTo.username;
 
   const isPublicMessage = (isPublic) ?
     (
       <>
-      <div><a href={`/profile/${userTo.username}/references`}>Your reference</a> for <UserLink user={userTo} /> is public now.</div>
-      <div><a href={`/profile/${userFrom.username}/references`}>See the reference from {name} to you.</a></div>
+      <div><Trans><a href={`/profile/${userTo.username}/references`}>Your reference</a> for <UserLink user={userTo} /> is public now.</Trans></div>
+      <div><a href={`/profile/${userFrom.username}/references`}>{t('See the reference from {{name}} to you.', name)}</a></div>
       </>
     ) :
     (
-      <div>Your reference will become public when <UserLink user={userTo} /> gives you a reference back, or in {config.limits.timeToReplyReference.days} days.</div>
+      <div>
+        <Trans daysToReply={daysToReply}>Your reference will become public when <UserLink user={userTo} /> gives you a reference back, or in {{ daysToReply }} days.</Trans>
+      </div>
     );
 
   return (
     <div className="alert alert-success">
-      <div>Done!</div>
+      <div>{t('Done!')}</div>
       <div>{isPublicMessage}</div>
-      {(isReported) ? <div>Also, <UserLink user={userTo} /> was reported.</div> : null}
+      {(isReported) ? <div><Trans>Also, <UserLink user={userTo} /> was reported.</Trans></div> : null}
     </div>
   );
-}
+});
 
 Submitted.propTypes = {
   userFrom: PropTypes.object.isRequired,

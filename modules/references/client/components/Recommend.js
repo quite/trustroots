@@ -4,7 +4,7 @@ import Report from './Report';
 import '@/config/lib/i18n';
 import { withNamespaces } from 'react-i18next';
 
-function Recommend({ t, reference, report, reportMessage, onChangeRecommend, onChangeReport, onChangeReportMessage }) {
+const Recommend = withNamespaces('reference')(function Recommend({ t, reference, report, reportMessage, onChangeRecommend, onChangeReport, onChangeReportMessage }) {
 
   const { hostedMe, hostedThem } = reference.interactions;
   const maxInteraction = (hostedMe) ? 'hostedMe' : (hostedThem) ? 'hostedThem' : 'met';
@@ -72,7 +72,7 @@ function Recommend({ t, reference, report, reportMessage, onChangeRecommend, onC
       </div>
     </div>
   );
-}
+});
 
 Recommend.propTypes = {
   reference: PropTypes.object.isRequired,
@@ -80,8 +80,7 @@ Recommend.propTypes = {
   onChangeReport: PropTypes.func.isRequired,
   onChangeReportMessage: PropTypes.func.isRequired,
   report: PropTypes.bool.isRequired,
-  reportMessage: PropTypes.string.isRequired,
-  t: PropTypes.func.isRequired
+  reportMessage: PropTypes.string.isRequired
 };
 
-export default withNamespaces('reference')(Recommend);
+export default Recommend;

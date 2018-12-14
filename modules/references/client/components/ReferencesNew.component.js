@@ -6,6 +6,8 @@ import Interaction from './Interaction';
 import Recommend from './Recommend';
 import { Self, Loading, Duplicate, Submitted } from './Info';
 import { Tab, Tabs } from 'react-bootstrap';
+import '@/config/lib/i18n';
+import { NamespacesConsumer } from 'react-i18next';
 
 const api = { references };
 
@@ -140,7 +142,7 @@ export default class ReferencesNew extends React.Component {
       return <Submitted isReported={isReported} isPublic={isPublic} userFrom={this.props.userFrom} userTo={this.props.userTo} />;
     }
 
-    return (
+    return (<NamespacesConsumer ns="reference">{ t => (
       <div>
         <Tabs
           activeKey={this.state.tab}
@@ -150,12 +152,12 @@ export default class ReferencesNew extends React.Component {
         >
           <Tab
             eventKey={0}
-            title="How do you know them"
+            title={t('How do you know them')}
             disabled
           >{tabs[0]}</Tab>
           <Tab
             eventKey={1}
-            title="Recommendation"
+            title={t('Recommendation')}
             disabled
           >{tabs[1]}</Tab>
         </Tabs>
@@ -170,7 +172,7 @@ export default class ReferencesNew extends React.Component {
           onSubmit={() => this.handleSubmit()}
         />
       </div>
-    );
+    )}</NamespacesConsumer>);
   }
 }
 
