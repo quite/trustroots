@@ -119,6 +119,7 @@ module.exports = {
       'config/lib/i18n.js',
       'modules/core/client/app/config.js',
       'modules/**/client/components/**',
+      'modules/**/client/utils/**',
       'modules/core/client/directives/tr-boards.client.directive.js',
       'modules/core/client/services/photos.service.js'
     ],
