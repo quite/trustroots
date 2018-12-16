@@ -1,3 +1,6 @@
+
+const reactVersion = require('./package.json').dependencies.react;
+
 const es2018rules = {
   'no-var': 2,
   'prefer-const': 2,
@@ -14,7 +17,7 @@ module.exports = {
   ],
   settings: {
     react: {
-      version: '16.6'
+      version: reactVersion
     }
   },
   rules: {
