@@ -266,30 +266,6 @@ gulp.task('eslint', function eslint() {
     .pipe(plugins.eslint.failAfterError());
 });
 
-// ESLint JS linting task for Angular files
-gulp.task('eslint-angular', gulp.series(
-  loadConfig,
-  function eslintAngular() {
-    var lintAssets = _.union(
-      assets.client.js,
-      // Don't lint dist and lib files
-      [
-        '!public/**/*',
-        '!node_modules/**/*'
-      ]
-    );
-
-    return gulp.src(lintAssets, { allowEmpty: true })
-      .pipe(plugins.eslint({
-        configFile: '.eslintrc-angular.js'
-      }))
-      .pipe(plugins.eslint.format())
-      // To have the process exit with an error code (1) on
-      // lint error, return the stream and pipe to failAfterError last.
-      .pipe(plugins.eslint.failAfterError());
-  }
-));
-
 // JavaScript task
 gulp.task('build:scripts', gulp.series(
   loadConfig,
@@ -466,7 +442,7 @@ function karmaWatch(done) {
 }
 
 // Analyse code for potential errors
-gulp.task('lint', gulp.parallel('eslint', 'eslint-angular'));
+gulp.task('lint', gulp.series('eslint'));
 
 // Clean dist css and js files
 gulp.task('clean', gulp.parallel('clean:css', 'clean:js'));
